@@ -1,0 +1,44 @@
+Test failed with error: ExpectError: expect(received).toBeTruthy()
+
+Received: false
+    at C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\SiegwerkOrderHistory.spec.js:33:32 {
+  matcherResult: {
+    message: '\x1B[2mexpect(\x1B[22m\x1B[31mreceived\x1B[39m\x1B[2m).\x1B[22mtoBeTruthy\x1B[2m()\x1B[22m\n' +
+      '\n' +
+      'Received: \x1B[31mfalse\x1B[39m',
+    pass: false
+  },
+  [Symbol(step)]: {
+    stepId: 'expect@12',
+    category: 'expect',
+    title: 'expect.toBeTruthy',
+    params: undefined,
+    infectParentStepsWithError: undefined,
+    boxedStack: undefined,
+    location: {
+      file: 'C:\\Users\\dahiyas\\Automations\\PlaywrightAutomation\\tests\\SiegwerkOrderHistory.spec.js',
+      line: 33,
+      column: 32
+    },
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'expect@12'
+    },
+    complete: [Function: complete],
+    endWallTime: 1751436302934,
+    error: {
+      message: 'Error: \x1B[2mexpect(\x1B[22m\x1B[31mreceived\x1B[39m\x1B[2m).\x1B[22mtoBeTruthy\x1B[2m()\x1B[22m\n' +
+        '\n' +
+        'Received: \x1B[31mfalse\x1B[39m',
+      stack: 'Error: \x1B[2mexpect(\x1B[22m\x1B[31mreceived\x1B[39m\x1B[2m).\x1B[22mtoBeTruthy\x1B[2m()\x1B[22m\n' +
+        '\n' +
+        'Received: \x1B[31mfalse\x1B[39m\n' +
+        '    at C:\\Users\\dahiyas\\Automations\\PlaywrightAutomation\\tests\\SiegwerkOrderHistory.spec.js:33:32',
+      cause: undefined,
+      matcherResult: [Object]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Client app login for ZARA COAT 3
+- Location: C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\RahulE2ETestPO.spec.js:10:5
+
+# Error details
+
+```
+Error: page.goto: Test timeout of 40000ms exceeded.
+Call log:
+  - navigating to "https://rahulshettyacademy.com/client", waiting until "load"
+
+    at LoginPage.goTo (C:\Users\dahiyas\Automations\PlaywrightAutomation\pageobjects\LoginPage.js:10:25)
+    at C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\RahulE2ETestPO.spec.js:23:25
+```
+
+# Test source
+
+```ts
+   1 | class LoginPage{
+   2 |     constructor(page){
+   3 |         this.page = page;
+   4 |         this.username = page.locator("#userEmail");
+   5 |         this.password = page.locator("#userPassword");
+   6 |         this.signInbutton = page.locator("[value='Login']");
+   7 |         this.products = page.locator(".card-body");
+   8 |     }
+   9 |     async goTo(){
+> 10 |         await this.page.goto("https://rahulshettyacademy.com/client");
+     |                         ^ Error: page.goto: Test timeout of 40000ms exceeded.
+  11 |     }
+  12 |
+  13 |     async validLogin(username,password){
+  14 |         await this.username.fill(username);
+  15 |         await this.password.fill(password);
+  16 |         await this.signInbutton.click();
+  17 |         await this.products.first().waitFor();
+  18 |     }
+  19 |
+  20 | }
+  21 | module.exports = {LoginPage};
+```

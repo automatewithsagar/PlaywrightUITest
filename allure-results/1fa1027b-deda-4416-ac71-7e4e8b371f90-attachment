@@ -1,0 +1,36 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Testing new changes
+- Location: C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\NewTest.spec.js:3:1
+
+# Error details
+
+```
+Error: page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to "https://accstorefront.ce0szhuj4u-siegwerkd1-s1-public.model-t.cc.commerce.ondemand.com/en/login", waiting until "load"
+
+    at C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\NewTest.spec.js:6:16
+```
+
+# Test source
+
+```ts
+   1 | const {test} = require('@playwright/test');
+   2 |
+   3 | test('Testing new changes',async ({browser})=>{
+   4 |     const context = await browser.newContext();
+   5 |     const page = await context.newPage();
+>  6 |     await page.goto('https://accstorefront.ce0szhuj4u-siegwerkd1-s1-public.model-t.cc.commerce.ondemand.com/en/login');
+     |                ^ Error: page.goto: Target page, context or browser has been closed
+   7 |     console.log(page.getByTitle());
+   8 |     //await expect(page).toHaveTitle()
+   9 |
+  10 | })
+```

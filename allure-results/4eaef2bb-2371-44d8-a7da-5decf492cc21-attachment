@@ -1,0 +1,74 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Client app login for ADIDAS ORIGINAL
+- Location: C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\RahulE2ETestPO.spec.js:10:5
+
+# Error details
+
+```
+Error: browserType.launch: Executable doesn't exist at C:\Users\dahiyas\AppData\Local\ms-playwright\chromium-1161\chrome-win\chrome.exe
+╔═════════════════════════════════════════════════════════════════════════╗
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     npx playwright install                                              ║
+║                                                                         ║
+║ <3 Playwright Team                                                      ║
+╚═════════════════════════════════════════════════════════════════════════╝
+```
+
+# Test source
+
+```ts
+   1 | const { test, expect } = require("@playwright/test");
+   2 | const{POManager} = require('../pageobjects/POManager');
+   3 |
+   4 |
+   5 | //importing data from json file and for that we should do: Json->String(JSON.stringify)-> JS object(JSON.parse)
+   6 | const dataset = JSON.parse(JSON.stringify(require('../utils/placeorderTestData.json')));
+   7 |
+   8 | test.describe.configure({mode:'parallel'});
+   9 | for(const data of dataset){
+> 10 |     test(`Client app login for ${data.productName}`, async ({ page }) => {
+     |     ^ Error: browserType.launch: Executable doesn't exist at C:\Users\dahiyas\AppData\Local\ms-playwright\chromium-1161\chrome-win\chrome.exe
+  11 |         
+  12 |         const countryCode = "ind";
+  13 |         const country = " India";
+  14 |     
+  15 |         const poManager = new POManager(page);
+  16 |     
+  17 |         const loginPage = poManager.getLoginPage();
+  18 |         const dashboardPage = poManager.getDashboardPage();
+  19 |         const cartPage = poManager.getCartPage();
+  20 |         const checkoutPage = poManager.getCheckoutPage();
+  21 |         const orderHistoryPage = poManager.getOrderHistoryPage();
+  22 |     
+  23 |         await loginPage.goTo();
+  24 |         await loginPage.validLogin(data.username,data.password);
+  25 |     
+  26 |         await dashboardPage.searchProduct(data.productName);
+  27 |         await dashboardPage.navigateToCart();
+  28 |     
+  29 |         await cartPage.verifyProductIsDisplayed(data.productName);
+  30 |         await cartPage.checkOut();
+  31 |     
+  32 |         await checkoutPage.selectCountry(countryCode, country);
+  33 |         await checkoutPage.selectCreditCardExpirtyDate("06", "24");
+  34 |         await checkoutPage.placeOrder();
+  35 |     
+  36 |         const orderId = await orderHistoryPage.getOrderId();
+  37 |         await orderHistoryPage.gotoOrderHistory();
+  38 |         await orderHistoryPage.searchOrderandSelect(orderId);
+  39 |     
+  40 |         //expect(orderId.trim().includes(orderHistoryPage.getOrderIdDetails())).toBeTruthy();
+  41 |     
+  42 |     })
+  43 | }
+  44 |
+```

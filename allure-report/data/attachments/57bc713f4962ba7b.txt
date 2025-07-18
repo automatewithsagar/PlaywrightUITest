@@ -1,0 +1,91 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Client app login for ZARA COAT 3
+- Location: C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\RahulE2ETestPO.spec.js:10:5
+
+# Error details
+
+```
+Error: locator.waitFor: Test timeout of 40000ms exceeded.
+Call log:
+  - waiting for locator('.card-body').first() to be visible
+
+    at LoginPage.validLogin (C:\Users\dahiyas\Automations\PlaywrightAutomation\pageobjects\LoginPage.js:17:37)
+    at C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\RahulE2ETestPO.spec.js:24:9
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: Ecom
+  - link " dummywebsite@rahulshettyacademy.com"
+  - link ""
+  - link ""
+  - link ""
+  - link ""
+- heading "We Make Your Shopping Simple" [level=3]
+- heading "Practice Website for Rahul Shetty Academy Students" [level=1]:
+  - text: Practice Website for
+  - emphasis: Rahul Shetty Academy
+  - text: Students
+- link "Register"
+- paragraph: Register to sign in with your personal account
+- heading "Log in" [level=1]
+- text: Email
+- textbox "email@example.com": anshika@gmail.com
+- text: Password
+- textbox "enter your passsword": Iamking@@@
+- button "Login"
+- link "Forgot password?"
+- paragraph: Don't have an account? Register here
+- heading "Why People Choose Us?" [level=1]
+- text: 
+- heading "3546540" [level=1]
+- paragraph: Successfull Orders
+- text: 
+- heading "37653" [level=1]
+- paragraph: Customers
+- text: 
+- heading "3243" [level=1]
+- paragraph: Sellers
+- text: 
+- heading "4500+" [level=1]
+- paragraph: Daily Orders
+- text: 
+- heading "500+" [level=1]
+- paragraph: Daily New Customer Joining
+```
+
+# Test source
+
+```ts
+   1 | class LoginPage{
+   2 |     constructor(page){
+   3 |         this.page = page;
+   4 |         this.username = page.locator("#userEmail");
+   5 |         this.password = page.locator("#userPassword");
+   6 |         this.signInbutton = page.locator("[value='Login']");
+   7 |         this.products = page.locator(".card-body");
+   8 |     }
+   9 |     async goTo(){
+  10 |         await this.page.goto("https://rahulshettyacademy.com/client");
+  11 |     }
+  12 |
+  13 |     async validLogin(username,password){
+  14 |         await this.username.fill(username);
+  15 |         await this.password.fill(password);
+  16 |         await this.signInbutton.click();
+> 17 |         await this.products.first().waitFor();
+     |                                     ^ Error: locator.waitFor: Test timeout of 40000ms exceeded.
+  18 |     }
+  19 |
+  20 | }
+  21 | module.exports = {LoginPage};
+```

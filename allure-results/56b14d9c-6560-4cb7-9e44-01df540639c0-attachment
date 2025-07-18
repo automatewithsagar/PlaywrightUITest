@@ -1,0 +1,46 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Testing new changes
+- Location: C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\NewTest.spec.js:3:1
+
+# Error details
+
+```
+Error: locator.click: Unexpected token "#" while parsing css selector "##CybotCookiebotDialogBodyButtonDecline". Did you mean to CSS.escape it?
+Call log:
+  - waiting for ##CybotCookiebotDialogBodyButtonDecline
+    - waiting for" https://accstorefront.ce0szhuj4u-siegwerkd1-s1-public.model-t.cc.commerce.ondemand.com/samlsinglesignon/saml/SSO" navigation to finish...
+    - navigated to "https://accstorefront.ce0szhuj4u-siegwerkd1-s1-public.model-t.cc.commerce.ondemand.com/en/Purchasing/c/purchasing"
+
+    at C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\NewTest.spec.js:14:67
+```
+
+# Test source
+
+```ts
+   1 | const {test,expect} = require('@playwright/test');
+   2 |
+   3 | test('Testing new changes',async ({browser})=>{
+   4 |     const context = await browser.newContext();
+   5 |     const page = await context.newPage();
+   6 |     await page.goto('https://accstorefront.ce0szhuj4u-siegwerkd1-s1-public.model-t.cc.commerce.ondemand.com/en/login');
+   7 |     console.log(await page.title());
+   8 |     await expect(page).toHaveTitle('my.Siegwerk Staging: Sign In');
+   9 |
+  10 |     await page.locator('#j_username').fill('adminuser0002232011@email.com');
+  11 |     await page.locator('#j_password').fill('CustomerPO!21');
+  12 |     await page.locator('#logOnFormSubmit').click();
+  13 |
+> 14 |     await page.locator('##CybotCookiebotDialogBodyButtonDecline').click();
+     |                                                                   ^ Error: locator.click: Unexpected token "#" while parsing css selector "##CybotCookiebotDialogBodyButtonDecline". Did you mean to CSS.escape it?
+  15 |     await expect(page).toHaveTitle("Purchasing | Customer Portal");
+  16 |     
+  17 |
+  18 | })
+```

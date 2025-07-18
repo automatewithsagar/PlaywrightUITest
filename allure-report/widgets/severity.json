@@ -1,0 +1,1 @@
+[{"uid":"dbb310e638719d03","name":"Client app login for ADIDAS ORIGINAL","time":{"start":1743391977324,"stop":1743391990269,"duration":12945},"status":"passed","severity":"normal"},{"uid":"419db2020123e3d4","name":"Client app login for ZARA COAT 3","time":{"start":1743392021826,"stop":1743392069575,"duration":47749},"status":"broken","severity":"normal"}]

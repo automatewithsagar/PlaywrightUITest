@@ -1,0 +1,64 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Contact page should display Feedback or Questions section
+- Location: C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\ContactPage.spec.js:4:1
+
+# Error details
+
+```
+Error: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('#CybotCookiebotDialogBodyButtonDecline').locator('button:has-text("Use necessary cookies only")')
+
+    at C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\ContactPage.spec.js:23:35
+```
+
+# Test source
+
+```ts
+   1 | const { test, expect } = require('@playwright/test');
+   2 | const { POManager } = require('../pageobjects/POManager');
+   3 |
+   4 | test('Contact page should display Feedback or Questions section', async ({ browser }) => {
+   5 |     // Always use incognito context
+   6 |     const context = await browser.newContext();
+   7 |     const page = await context.newPage();
+   8 |     const poManager = new POManager(page);
+   9 |
+  10 |     // 1. Navigate to login page
+  11 |     await page.goto('https://accstorefront.ce0szhuj4u-siegwerkd1-s1-public.model-t.cc.commerce.ondemand.com/en/login');
+  12 |
+  13 |     // 2. Login
+  14 |     await page.fill('input[name="j_username"]', 'adminuser0002232011@email.com');
+  15 |     await page.fill('input[name="j_password"]', 'CustomerPO!21');
+  16 |     await page.click('button[type="submit"]');
+  17 |     await page.waitForLoadState('networkidle');
+  18 |
+  19 |     // 2.1 Wait for cookie dialog and accept only necessary cookies
+  20 |     const cookieDialog = page.locator('#CybotCookiebotDialogBodyButtonDecline');
+  21 |     if (await cookieDialog.isVisible({ timeout: 15000 })) {
+  22 |         const acceptCookiesButton = cookieDialog.locator('button:has-text("Use necessary cookies only")');
+> 23 |         await acceptCookiesButton.click();
+     |                                   ^ Error: locator.click: Target page, context or browser has been closed
+  24 |         await cookieDialog.waitFor({ state: 'detached', timeout: 10000 });
+  25 |     }
+  26 |
+  27 |     // 3. Click CONTACT link in the footer
+  28 |     await page.locator('footer').locator('text=Contact').click();
+  29 |     await page.waitForLoadState('networkidle');
+  30 |
+  31 |     // 4. Verify CONTACT page is open and has Feedback or Questions section
+  32 |     const contactPage = poManager.getContactPage();
+  33 |     const isVisible = await contactPage.isContactPageOpen();
+  34 |     expect(isVisible).toBeTruthy();
+  35 |
+  36 |     await context.close();
+  37 | });
+  38 |
+```

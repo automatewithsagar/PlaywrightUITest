@@ -1,0 +1,113 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Siegwerk Portal Tests >> Siegwerk Login and Order History Validation
+- Location: C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\SiegwerkOrderHistory.spec.js:7:5
+
+# Error details
+
+```
+Error: expect(received).toBeTruthy()
+
+Received: false
+    at C:\Users\dahiyas\Automations\PlaywrightAutomation\tests\SiegwerkOrderHistory.spec.js:33:32
+```
+
+# Test source
+
+```ts
+   1 | const { test, expect } = require("@playwright/test");
+   2 | const { POManager } = require('../pageobjects/POManager');
+   3 |
+   4 | test.describe('Siegwerk Portal Tests', () => {
+   5 |     test.describe.configure({ mode: 'serial' });
+   6 |     
+   7 |     test('Siegwerk Login and Order History Validation', async ({ browser }) => {
+   8 |         // Create incognito context for privacy
+   9 |         const context = await browser.newContext({
+  10 |             viewport: { width: 1280, height: 720 },
+  11 |             ignoreHTTPSErrors: true
+  12 |         });
+  13 |         
+  14 |         const page = await context.newPage();
+  15 |         
+  16 |         // Test credentials
+  17 |         const username = "adminuser0002232011@email.com";
+  18 |         const password = "CustomerPO!21";
+  19 |         
+  20 |         try {
+  21 |             const poManager = new POManager(page);
+  22 |             const siegwerkLoginPage = poManager.getSiegwerkLoginPage();
+  23 |             const siegwerkOrderHistoryPage = poManager.getSiegwerkOrderHistoryPage();
+  24 |             
+  25 |             console.log("Step 1: Navigate to Siegwerk login page");
+  26 |             await siegwerkLoginPage.goTo();
+  27 |             
+  28 |             console.log("Step 2: Login with provided credentials");
+  29 |             await siegwerkLoginPage.login(username, password);
+  30 |             
+  31 |             // Verify login was successful
+  32 |             const isLoggedIn = await siegwerkLoginPage.isLoggedIn();
+> 33 |             expect(isLoggedIn).toBeTruthy();
+     |                                ^ Error: expect(received).toBeTruthy()
+  34 |             console.log("Login successful");
+  35 |             
+  36 |             console.log("Step 3: Navigate to Order History page");
+  37 |             await siegwerkLoginPage.navigateToOrderHistory();
+  38 |             
+  39 |             console.log("Step 4: Validate Order History page is loaded");
+  40 |             await siegwerkOrderHistoryPage.validateOrderHistoryPageLoaded();
+  41 |             
+  42 |             console.log("Step 5: Validate Order History data");
+  43 |             const hasValidData = await siegwerkOrderHistoryPage.validateOrderHistoryData();
+  44 |             expect(hasValidData).toBeTruthy();
+  45 |             
+  46 |             console.log("Test completed successfully");
+  47 |             
+  48 |         } catch (error) {
+  49 |             console.error("Test failed with error:", error);
+  50 |             throw error;
+  51 |         } finally {
+  52 |             await context.close();
+  53 |         }
+  54 |     });
+  55 |     
+  56 |     test('Siegwerk Login with Invalid Credentials', async ({ browser }) => {
+  57 |         // Create incognito context for privacy
+  58 |         const context = await browser.newContext({
+  59 |             viewport: { width: 1280, height: 720 },
+  60 |             ignoreHTTPSErrors: true
+  61 |         });
+  62 |         
+  63 |         const page = await context.newPage();
+  64 |         
+  65 |         try {
+  66 |             const poManager = new POManager(page);
+  67 |             const siegwerkLoginPage = poManager.getSiegwerkLoginPage();
+  68 |             
+  69 |             console.log("Step 1: Navigate to Siegwerk login page");
+  70 |             await siegwerkLoginPage.goTo();
+  71 |             
+  72 |             console.log("Step 2: Attempt login with invalid credentials");
+  73 |             await siegwerkLoginPage.login("invalid@email.com", "wrongpassword");
+  74 |             
+  75 |             // Verify login failed
+  76 |             const isLoggedIn = await siegwerkLoginPage.isLoggedIn();
+  77 |             expect(isLoggedIn).toBeFalsy();
+  78 |             console.log("Login correctly failed with invalid credentials");
+  79 |             
+  80 |         } catch (error) {
+  81 |             console.error("Test failed with error:", error);
+  82 |             throw error;
+  83 |         } finally {
+  84 |             await context.close();
+  85 |         }
+  86 |     });
+  87 | });
+  88 |
+```
